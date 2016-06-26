@@ -56,24 +56,24 @@ class InitialTables extends Migration
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
         
-        DB::statement("CREATE TABLE inventry (
+        DB::statement("CREATE TABLE inventory (
           id int(11) NOT NULL AUTO_INCREMENT,
-          inventry_item_id int(11) DEFAULT '0',
+          inventory_item_id int(11) DEFAULT '0',
           quantity int(11) DEFAULT '0',
           rate decimal(10,0) DEFAULT '0',
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
-        DB::statement("CREATE TABLE inventryItems (
+        DB::statement("CREATE TABLE inventoryItems (
           id int(11) NOT NULL AUTO_INCREMENT,
           name varchar(128) DEFAULT NULL,
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
-        DB::statement("CREATE TABLE optionItemInventryItems (
+        DB::statement("CREATE TABLE optionItemInventoryItems (
           id int(11) NOT NULL AUTO_INCREMENT,
           option_item_id int(11) DEFAULT '0',
-          inventry_item_id int(11) DEFAULT '0',
+          inventory_item_id int(11) DEFAULT '0',
           quantity decimal(10,0) DEFAULT '0',
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
@@ -141,10 +141,10 @@ class InitialTables extends Migration
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
-        DB::statement("CREATE TABLE productInventryItems (
+        DB::statement("CREATE TABLE productInventoryItems (
           id int(11) NOT NULL AUTO_INCREMENT,
           product_id int(11) DEFAULT '0',
-          inventry_item_id int(11) DEFAULT '0',
+          inventory_item_id int(11) DEFAULT '0',
           quantity decimal(10,0) DEFAULT '0',
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
@@ -198,16 +198,16 @@ class InitialTables extends Migration
         Schema::drop('cities');
         Schema::drop('customerAddresses');
         Schema::drop('customers');
-        Schema::drop('inventry');
-        Schema::drop('inventryItems');
-        Schema::drop('optionItemInventryItems');
+        Schema::drop('inventory');
+        Schema::drop('inventoryItems');
+        Schema::drop('optionItemInventoryItems');
         Schema::drop('optionItems');
         Schema::drop('options');
         Schema::drop('orderProductOptionItems');
         Schema::drop('orderProducts');
         Schema::drop('orders');
         Schema::drop('productGroups');
-        Schema::drop('productInventryItems');
+        Schema::drop('productInventoryItems');
         Schema::drop('productOptionItems');
         Schema::drop('productOptions');
         Schema::drop('products');
