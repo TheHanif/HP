@@ -11,7 +11,12 @@
 |
 */
 
+// Entrust
+use \App\Role;
+use \App\Permission;
+
 Route::get('/', function () {
+
     return view('frontend.home');
 });
 
