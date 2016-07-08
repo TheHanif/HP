@@ -10,17 +10,33 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 // Entrust
 use \App\Role;
 use \App\Permission;
+
+
+Route::auth();
+
 
 Route::get('/', function () {
 
     return view('frontend.home');
 });
 
-Route::auth();
 
-Route::get('/dashboard', 'Backend\DashboardController@index');
-Route::get('/products/add', 'Backend\ProductController@add');
+// Dashboard
+Route::get('dashboard', ['as'=>'dashboard', 'uses'=>'Backend\DashboardController@index']);
+
+// Products
+Route::resource('products', 'Backend\ProductsController');
+
+
+
+// Verb    Path                        Action  Route Name
+// GET     /users                      index   users.index
+// GET     /users/create               create  users.create
+// POST    /users                      store   users.store
+// GET     /users/{user}               show    users.show
+// GET     /users/{user}/edit          edit    users.edit
+// PUT     /users/{user}               update  users.update
+// DELETE  /users/{user}               destroy users.destroy

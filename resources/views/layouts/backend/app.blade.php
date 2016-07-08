@@ -67,10 +67,10 @@
                         </a>
                         
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/products') }}">All products</a></li>
-                            <li><a href="{{ url('/products/add') }}">Add product</a></li>
+                            <li><a href="{{ route('products.index') }}">All products</a></li>
+                            <li><a href="{{ route('products.create') }}">New product</a></li>
                             <li><a href="{{ url('/options') }}">Options</a></li>
-                            <li><a href="{{ url('/options/add') }}">Add option</a></li>
+                            <li><a href="{{ url('/options/add') }}">New option</a></li>
                         </ul>
 
                     </li><!-- end of products -->
