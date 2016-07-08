@@ -133,7 +133,7 @@ class InitialTables extends Migration
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
-        DB::statement("CREATE TABLE productGroups (
+        DB::statement("CREATE TABLE Groups (
           id int(11) NOT NULL AUTO_INCREMENT,
           name varchar(128) DEFAULT NULL,
           created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
