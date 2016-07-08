@@ -15,36 +15,11 @@
 use \App\Role;
 use \App\Permission;
 
-Route::controller('auth', 'Auth\AuthController', [
-	'getLogin' => 'auth.login',
-	'getLogout' => 'auth.logout'
-]);
-
-
 Route::get('/', function () {
 
     return view('frontend.home');
 });
 
+Route::auth();
 
-
-
-/*===============================
-=            Backend            =
-===============================*/
-
-Route::get('/dashboard', ['as'=>'dashboard', 'uses' => 'Backend\DashboardController@index']);
-
-
-// Products
-Route::get('/products', ['as'=>'products', 'uses' => 'Backend\ProductController@all']);
-Route::get('/products/add', ['as'=>'products.add', 'uses' => 'Backend\ProductController@add']);
-// Route::controller('/products', 'Backend\ProductController', [
-// 	'add' => 'products.add',
-// 	'all' => 'products'
-// ]);
-
-
-/*=====  End of Backend  ======*/
-
-
+Route::get('/dashboard', 'DashboardController@index');
