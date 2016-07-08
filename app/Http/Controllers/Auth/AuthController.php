@@ -38,6 +38,8 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->redirectAfterLogout = route('auth.login');
+        $this->redirectTo = route('dashboard');
     }
 
     /**
