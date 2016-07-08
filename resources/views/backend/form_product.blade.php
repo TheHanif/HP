@@ -1,11 +1,14 @@
 @extends('layouts.backend.app')
 
-@section('title', 'Add Product')
-@section('heading', 'Add product')
+@section('title', $product->exists ? 'Edit Product' : 'New Product')
+@section('heading', $product->exists ? 'Editing '. $product->name : 'Create New Product')
 
 @section('content')
 
-    {!! Form::open() !!}
+    {!! Form::model($product, [
+        'method' => $product->exists ? 'put' : 'post',
+        'route' => $product->exists ? ['products.update', $product->id] : ['products.store']
+    ]) !!}
 
     <div role="tabpanel">
         <!-- Nav tabs -->
@@ -22,8 +25,23 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="General">
                 <div class="form-group">
-                    {!! Form::label('Product name') !!}
+                    {!! Form::label('name', 'Product name') !!}
                     {!! Form::text('name', null, ['class'=>'form-control']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('cost', 'Product cost') !!}
+                    {!! Form::text('cost', null, ['class'=>'form-control']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('price', 'Product price') !!}
+                    {!! Form::text('price', null, ['class'=>'form-control']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('group_id', 'Product group') !!}
+                    {!! Form::select('group_id', $Groups, null, ['class'=>'form-control']) !!}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="Options">Options here</div>

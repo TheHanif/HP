@@ -28,6 +28,7 @@ Route::get('/', function () {
 Route::get('dashboard', ['as'=>'dashboard', 'uses'=>'Backend\DashboardController@index']);
 
 // Products
+Route::get('products/{product}/change', ['as'=>'products.change', 'uses'=>'Backend\ProductsController@change']);
 Route::resource('products', 'Backend\ProductsController');
 
 

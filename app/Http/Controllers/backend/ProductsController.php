@@ -2,9 +2,24 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Requests;
+use Illuminate\Http\Request;
+
+use App\Models\Backend\Product;
+use App\Models\Backend\Group;
+
 
 class ProductsController extends Controller
 {
+    protected $products;
+
+    public function __construct(Product $products)
+    {
+        $this->products = $products;
+
+        Parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -12,7 +27,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return view('backend.products');
+        $products = $this->products->paginate(10);
+        return view('backend.products', compact('products'));
     }
 
     /**
@@ -22,7 +38,11 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('backend.form_product');
+        $product = new Product();
+        $Group = new Group();
+        $Groups = $Group->lists('name', 'id');
+
+        return view('backend.form_product', ['product'=>$product, 'Groups'=>$Groups]);
     }
 
     /**
@@ -31,9 +51,11 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\ProductRequest $request)
     {
-        //
+        $this->products->create($request->only('name','group_id','cost','price'));
+
+        return redirect(route('products.index'))->with('status', 'Product has been created');
     }
 
     /**
@@ -54,8 +76,13 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+        $product = $this->products->findOrFail($id);
+
+        $Group = new Group();
+        $Groups = $Group->lists('name', 'id');
+
+        return view('backend.form_product', ['product'=>$product, 'Groups'=>$Groups]);
     }
 
     /**
@@ -65,9 +92,23 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\ProductRequest $request, $id)
     {
-        //
+        $product = $this->products->findOrFail($id);
+        $product->fill($request->only('name','group_id','cost','price'))->save();
+
+        return redirect(route('products.edit', $product->id))->with('status', 'Product has been updated');
+    }
+
+    // Change status of product
+    public function change($id)
+    {
+        $product = $this->products->findOrFail($id);
+        
+        $product->status = ($product->status == 0)? 1 : 0;
+        $product->save();
+
+        return redirect(route('products.index'))->with('status', 'Product status has been updated');
     }
 
     /**
