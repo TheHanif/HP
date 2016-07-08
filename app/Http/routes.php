@@ -22,4 +22,5 @@ Route::get('/', function () {
 
 Route::auth();
 
-Route::get('/dashboard', 'DashboardController@index');
+Route::get('/dashboard', 'Backend\DashboardController@index');
+Route::get('/products/add', 'Backend\ProductController@add');
