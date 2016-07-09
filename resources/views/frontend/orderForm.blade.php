@@ -67,6 +67,28 @@
             <h4>Order detail...</h4>
             <hr>
 
+            <div class="row">
+                <div class="col-xs-8 col-md-6">{!! Form::label('quantity', 'Product name') !!} <div class="help-block">Rs. 65.00/-</div></div>
+                <div class="col-xs-4 col-md-offset-3 col-md-3">{!! Form::number('quantity', 0, ['class'=>'form-control', 'min'=>0]) !!}</div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-xs-8 col-md-6">{!! Form::label('quantity', 'Product name') !!} <div class="help-block">Rs. 65.00/-</div></div>
+                <div class="col-xs-4 col-md-offset-3 col-md-3">{!! Form::number('quantity', 0, ['class'=>'form-control', 'min'=>0]) !!}</div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-xs-8 col-md-6">{!! Form::label('quantity', 'Product name') !!} <div class="help-block">Rs. 65.00/-</div></div>
+                <div class="col-xs-4 col-md-offset-3 col-md-3">{!! Form::number('quantity', 0, ['class'=>'form-control', 'min'=>0]) !!}</div>
+            </div>
+            <hr>
+            
+
+            <div class="clearfix"></div>
+            <br>
+
             {!! Form::submit('Place order', ['class'=>'btn btn-primary btn-lg']) !!}
             
             <div class="clearfix"></div>
