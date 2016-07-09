@@ -40,12 +40,16 @@
 							<a href="{{ route('products.change', $product->id) }}" class="btn btn-default">
 								<e>{{ ($product->status == 0)? 'Activate' : 'Inactive'}}</e>
 							</a>
+
+							<a href="{{ route('products.confirm', $product->id) }}" class="btn btn-danger">delete</a>
 						</td>
 					</tr>
 				@endforeach
 		    @endif
     	</tbody>
     </table>
+
+    {{ $products->links() }}
 
     
 

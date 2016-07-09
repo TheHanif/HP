@@ -61,12 +61,16 @@ class InitialTables extends Migration
           inventory_item_id int(11) DEFAULT '0',
           quantity int(11) DEFAULT '0',
           rate decimal(10,0) DEFAULT '0',
+          created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at timestamp NULL DEFAULT NULL,
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
         DB::statement("CREATE TABLE inventoryItems (
           id int(11) NOT NULL AUTO_INCREMENT,
           name varchar(128) DEFAULT NULL,
+          created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at timestamp NULL DEFAULT NULL,
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
@@ -75,6 +79,8 @@ class InitialTables extends Migration
           option_item_id int(11) DEFAULT '0',
           inventory_item_id int(11) DEFAULT '0',
           quantity decimal(10,0) DEFAULT '0',
+          created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at timestamp NULL DEFAULT NULL,
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
@@ -130,6 +136,8 @@ class InitialTables extends Migration
           number varchar(128) DEFAULT NULL,
           customer_id varchar(128) DEFAULT NULL,
           status varchar(1) DEFAULT NULL,
+          created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at timestamp NULL DEFAULT NULL,
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
@@ -146,12 +154,15 @@ class InitialTables extends Migration
           product_id int(11) DEFAULT '0',
           inventory_item_id int(11) DEFAULT '0',
           quantity decimal(10,0) DEFAULT '0',
+          created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at timestamp NULL DEFAULT NULL,
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
         DB::statement("CREATE TABLE productOptionItems (
           id int(11) NOT NULL AUTO_INCREMENT,
-          product_options_id int(11) DEFAULT '0',
+          product_option_id int(11) DEFAULT '0',
+          option_item_id int(11) DEFAULT '0',
           price decimal(10,0) DEFAULT '0',
           status int(1) DEFAULT '0',
           created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -163,6 +174,8 @@ class InitialTables extends Migration
           id int(11) NOT NULL AUTO_INCREMENT,
           product_id int(11) DEFAULT '0',
           option_id int(11) DEFAULT '0',
+          created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at timestamp NULL DEFAULT NULL,
           PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 

@@ -12,4 +12,9 @@ class Product extends Model
     {
         return $this->belongsTo('App\Models\Backend\Group', 'group_id', 'id')->select('name');
     }
+
+    public function options()
+	{
+		return $this->hasMany('App\Models\Backend\ProductOption');
+	}
 }

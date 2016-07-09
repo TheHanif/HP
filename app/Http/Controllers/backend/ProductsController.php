@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 use App\Models\Backend\Product;
 use App\Models\Backend\Group;
+use App\Models\Backend\Option;
+use App\Models\Backend\ProductOption;
+use App\Models\Backend\ProductOptionItem;
 
 
 class ProductsController extends Controller
@@ -28,7 +31,7 @@ class ProductsController extends Controller
     public function index()
     {
         $products = $this->products->paginate(10);
-        return view('backend.products', compact('products'));
+        return view('backend.products.products', compact('products'));
     }
 
     /**
@@ -42,7 +45,10 @@ class ProductsController extends Controller
         $Group = new Group();
         $Groups = $Group->lists('name', 'id');
 
-        return view('backend.form_product', ['product'=>$product, 'Groups'=>$Groups]);
+        $Option = new Option();
+        $Options = $Option->with('items')->get();
+
+        return view('backend.products.form', ['product'=>$product, 'Groups'=>$Groups, 'Options'=>$Options]);
     }
 
     /**
@@ -53,7 +59,30 @@ class ProductsController extends Controller
      */
     public function store(Requests\ProductRequest $request)
     {
-        $this->products->create($request->only('name','group_id','cost','price'));
+        // Add product
+        $product = $this->products->create($request->only('name','group_id','cost','price'));
+
+        $options = $request->input('options');
+
+        // Add options
+        foreach ($options as $option) {
+            
+            $product_option = new ProductOption();
+            $product_option->product_id = $product->id;
+            $product_option->option_id = $option['option_id'];
+            $product_option->save();
+
+            // Add option items
+            foreach ($option['items'] as $item) {
+
+                $product_option_item = new ProductOptionItem();
+                $product_option_item->product_option_id = $product_option->id;
+                $product_option_item->option_item_id = $item['item_id'];
+                $product_option_item->price = $item['price'];
+                $product_option_item->status = $item['status'];
+                $product_option_item->save();
+            }
+        }
 
         return redirect(route('products.index'))->with('status', 'Product has been created');
     }
@@ -82,7 +111,10 @@ class ProductsController extends Controller
         $Group = new Group();
         $Groups = $Group->lists('name', 'id');
 
-        return view('backend.form_product', ['product'=>$product, 'Groups'=>$Groups]);
+        $Option = new Option();
+        $Options = $Option->with('items')->get();
+
+        return view('backend.products.form', ['product'=>$product, 'Groups'=>$Groups, 'Options'=>$Options]);
     }
 
     /**
@@ -97,7 +129,36 @@ class ProductsController extends Controller
         $product = $this->products->findOrFail($id);
         $product->fill($request->only('name','group_id','cost','price'))->save();
 
-        return redirect(route('products.edit', $product->id))->with('status', 'Product has been updated');
+        foreach ($product->options as $option) {
+            foreach ($option->optionItems as $item) {
+                $item->delete();
+            }
+            $option->delete();
+        }
+        
+        $options = $request->input('options');
+
+        // Add options
+        foreach ($options as $option) {
+            
+            $product_option = new ProductOption();
+            $product_option->product_id = $product->id;
+            $product_option->option_id = $option['option_id'];
+            $product_option->save();
+
+            // Add option items
+            foreach ($option['items'] as $item) {
+
+                $product_option_item = new ProductOptionItem();
+                $product_option_item->product_option_id = $product_option->id;
+                $product_option_item->option_item_id = $item['item_id'];
+                $product_option_item->price = $item['price'];
+                $product_option_item->status = $item['status'];
+                $product_option_item->save();
+            }
+        }
+
+        return redirect(route('products.edit', $id))->with('status', 'Product has been updated');
     }
 
     // Change status of product
@@ -111,6 +172,13 @@ class ProductsController extends Controller
         return redirect(route('products.index'))->with('status', 'Product status has been updated');
     }
 
+    // Display confirmation for deleting product
+    public function confirm($id)
+    {
+        $product = $this->products->findOrFail($id);
+        return view('backend.products.confirm', compact('product'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -119,6 +187,17 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = $this->products->findOrFail($id);
+
+        foreach ($product->options as $option) {
+            foreach ($option->optionItems as $item) {
+                $item->delete();
+            }
+            $option->delete();
+        }
+
+        $product->delete();
+
+        return redirect(route('products.index'))->with('status', 'Product has been deleted');
     }
 }
