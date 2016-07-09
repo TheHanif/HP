@@ -14,14 +14,14 @@
 use \App\Role;
 use \App\Permission;
 
-
 Route::auth();
 
+// Home page
+Route::get('/', ['as'=>'home', 'uses'=>'Frontend\FrontendController@home']);
+Route::post('/', 'Frontend\FrontendController@saveOrder');
 
-Route::get('/', function () {
 
-    return view('frontend.home');
-});
+
 
 
 // Dashboard
