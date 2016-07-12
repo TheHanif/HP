@@ -38,21 +38,56 @@
 	/*============================================================
 	=            Ajax for get cutomer detail by phone            =
 	============================================================*/
+
+	$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 	
 	var phone = $('#phone');
 	var is_fired = false;
+	var is_filled = false;
 
 	phone.on('keyup', function(e) {
 
-		if (phone.val().length >= 8 && is_fired == false) {
+		if (phone.val().length >= 8 && is_fired == false && is_filled == false) {
 
 			is_fired = true;
 			
-			console.log('fire ajax');
+			$.ajax({
+				url: 'customer/get',
+				type: 'POST',
+				dataType: 'json',
+				data: {phone: phone.val()},
+			})
+			.done(function(response) {
+
+				if (response.status) {
+
+					console.log("Customer found");
+
+					$.each(response.customer, function(key, value) {
+						$('#'+key).val(value);
+					});
+
+					// Prevent from filling form again
+					is_filled = true;
+
+					console.log("Customer form filled with data");
+
+				}else{
+					console.log('Customer not found');
+				}
+
+				// Get ready to fire again
+				is_fired = true;
+
+			});
 
 		};
 
-	}); // end phone change event
+	}); // end phone keyup event
 	
 	/*=====  End of Ajax for get cutomer detail by phone  ======*/
 	

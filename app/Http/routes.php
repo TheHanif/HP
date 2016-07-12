@@ -18,7 +18,9 @@ Route::auth();
 
 // Home page
 Route::get('/', ['as'=>'home', 'uses'=>'Frontend\FrontendController@home']);
-Route::post('/', 'Frontend\FrontendController@saveOrder');
+
+// Get customer detail via ajax to fill form
+Route::post('/customer/get', 'Frontend\FrontendController@getCustomerByPhone');
 
 
 
